@@ -1,0 +1,68 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  margin-top: 2em;
+}
+
+.register-box {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.register-box h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 10px;
+  font-size: 40px;
+  text-transform: uppercase;
+}
+
+form {
+  background-color: transparent;
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #ffffff;
+}
+
+.input-group label {
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  text-align: center;
+}
+
+.input-group input {
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid #DBE2EF;
+  border-radius: 5px;
+  width: 80%;
+  text-align: center;
+}
+
+.submit-btn, .cancel-btn {
+  background-color: #151d26;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 1em;
+}
+
+.submit-btn:hover, .cancel-btn:hover {
+  background-color: #ffffff;
+  color: #0D0D0D;
+}

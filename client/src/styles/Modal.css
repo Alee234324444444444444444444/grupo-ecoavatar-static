@@ -1,0 +1,128 @@
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  border: 1px solid #f9fafb;
+  color: #f9fafb;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.modal-content input[type="file"],
+.modal-content textarea {
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #f9fafb;
+  border-radius: 5px;
+  padding: 8px;
+  background-color: gainsboro;
+  color: #162114;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  transition: transform 0.5s ease;
+}
+
+.modal-buttons .btn-submit {
+  background-color: #bdd3ce;
+  color: #151d26;
+  margin-right: 5px;
+}
+
+.modal-buttons .btn-submit:hover {
+  transform: translateX(-15px);
+  background-color: #151d26;
+  color: white;
+}
+
+.modal-buttons .btn-close {
+  background-color: #151d26;
+  color: white;
+}
+
+.modal-buttons .btn-close:hover {
+  transform: translateX(15px);
+  background-color: #bdd3ce;
+  color: #151d26;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-content p {
+    font-size: 0.9rem;
+  }
+
+  .modal-buttons button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 10px;
+    width: 94%;
+  }
+
+  .modal-content {
+    padding: 10px;
+  }
+
+  .modal-buttons {
+    flex-direction: column; 
+  }
+
+  .form-modal{
+    max-width: 250px;
+  }
+
+  .modal-buttons button {
+    width: 50%;
+    margin: 5px 0;
+  }
+
+  .modal-buttons .btn-submit:hover,
+  .modal-buttons .btn-close:hover {
+    transform: none;
+  }
+
+  .modal-buttons button:active {
+    transform: scale(0.95);
+  }
+}

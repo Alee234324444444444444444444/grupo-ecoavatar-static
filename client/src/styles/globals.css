@@ -1,0 +1,22 @@
+/* Globales */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-image: url(../images/background.jpg) ;
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,360 @@
+.foro {
+  backdrop-filter: blur(5px); 
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-left: 30px;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  max-width: 1000px;
+  border: 1px solid white;
+}
+
+.foro h3 {
+  text-align: center;
+  color: #f0f4f8;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.foro-textarea {
+  width: 98%;
+  color: #151d26;
+  background-color: #bdd3ce;
+  border: 1px solid #f9fafb;
+  border-radius: 20px;
+  font-size: 1em;
+  padding: 10px;
+  margin-bottom: 15px;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.btn-publicar {
+  background-color: #bdd3ce;
+  color: #151d26;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 5px 0;
+  transition: background-color 0.3s;
+  width: auto;
+  min-width: 120px;
+  border: 1px solid #f9fafb;
+  transition: transform 0.4s ease-in-out, 
+  background-color 0.3s ease-in-out;
+}
+
+.btn-publicar:hover {
+  background-color: #151d26;
+  color: white;
+  transform: translateX(20px);
+  border: 1px solid white;
+}
+
+.comentario-item {
+  list-style: none;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.comentario-box {
+  background-color: #000000;
+  padding: 15px;
+  border-radius: 8px;
+  color: #f9fafb;
+  word-wrap: break-word;
+  border: 1px solid white;
+}
+
+.comment-date {
+  font-size: 0.8em;
+  color: #ccc;
+  margin-left: 10px;
+  display: inline-block;
+}
+
+.comment-content {
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.comentarios {
+  margin-top: 20px;
+  padding: 0;
+  width: 100%;
+}
+
+/* Estilos para los iconos */
+.icon-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f9fafb;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon-button.delete:hover {
+  color: #81231e;
+  background-color: rgba(255, 68, 68, 0.1);
+}
+
+.comment-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.reply-box {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.reply-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.edit-container {
+  margin-top: 10px;
+}
+
+.edit-textarea {
+  width: 98%;
+  background-color: rgba(46, 46, 46, 0.1);
+  color: #f9fafb;
+  border: 1px solid #f9fafb;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+  .foro {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .foro {
+    width: 90%;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .foro-textarea {
+    max-width: 480px;
+  }
+
+  .foro h3 {
+    font-size: 1.3rem;
+  }
+
+  .btn-publicar {
+    max-width: 10em;
+    padding: 5px 10px;
+  }
+
+  .btn-publicar:hover {
+    transform: translateX(10px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .foro {
+    width: 90%;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .foro h3 {
+    font-size: 1.2rem;
+  }
+
+  .foro-textarea {
+    padding: 8px;
+    font-size: 0.9em;
+    max-width: 320px;
+  }
+
+  .comentario-box {
+    padding: 10px;
+  }
+
+  .comment-date {
+    display: block;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+
+  .icon-button {
+    padding: 6px;
+  }
+
+  .btn-publicar {
+    max-width: 5em;
+    padding: 5px 10px;
+  }
+
+  .btn-publicar:hover {
+    transform: translateX(5px);
+  }
+}
+
+/* Estilos para el text-area de respuestas */
+.reply-box textarea {
+  width: 98%;
+  color: #f9fafb;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid #f9fafb;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Alinear botones de edición horizontalmente */
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+
+/* Espacio entre el nombre de usuario y la fecha en las respuestas */
+.reply-item strong {
+  margin-right: 10px;
+}
+
+/* Contenedor de respuestas */
+.replies-list {
+  margin-top: 15px;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.reply-item {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.reply-item .reply-date {
+  color: #ccc;
+  font-size: 0.8em;
+}
+
+.reply-item p {
+  margin-top: 8px;
+}
+
+/* Asegurarse de que los botones de acción tengan el mismo tamaño y alineación */
+.edit-actions,
+.reply-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.edit-container,
+.reply-box {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Asegurar que los textareas tengan el mismo estilo */
+.edit-textarea,
+.reply-box textarea {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f9fafb;
+  border: 1px solid #f9fafb;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+  min-height: 80px;
+  resize: vertical;
+  font-size: 1em;
+}
+
+/* Estilos para niveles de respuesta */
+.reply-container {
+  margin-left: 20px;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  padding-left: 15px;
+  margin-top: 10px;
+}
+
+.reply-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reply-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  color: #f9fafb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  margin-top: 8px;
+  font-size: 0.9em;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.expand-button:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.nested-replies {
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos para diferentes niveles de respuesta */
+.level-1 { margin-left: 20px; }
+.level-2 { margin-left: 40px; }
+.level-3 { margin-left: 60px; }
+.level-4 { margin-left: 80px; }
+.level-5 { margin-left: 100px; }
+
+/* Ajustes responsive */
+@media screen and (max-width: 768px) {
+  .level-1, .level-2, .level-3, .level-4, .level-5 {
+    margin-left: 10px;
+  }
+}

@@ -1,0 +1,170 @@
+.perfil-container {
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid #ffffff;
+    margin: 20px auto;
+    margin-top: 5em;
+    width: 90%;
+    max-width: 1200px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .perfil-container h2 {
+    text-transform: uppercase;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .perfil-container h3 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+  
+  .profile-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .info-section {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #ffffff;
+  }
+  
+  .data-grid {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .labels-column {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .values-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .label-item {
+    padding: 12px 15px;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+  }
+  
+  .data-item {
+    padding: 12px 15px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    word-break: break-word;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    padding: 20px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    border: 1px solid #ffffff;
+    font-size: 1.1rem;
+  }
+  
+  .error {
+    color: #ff6b6b;
+  }
+  
+  /* Responsive styles */
+  @media screen and (max-width: 768px) {
+    .perfil-container {
+      width: 95%;
+      padding: 20px;
+      margin-top: 4em;
+    }
+  
+    .data-grid {
+      flex-direction: column;
+    }
+  
+    .labels-column {
+      flex: none;
+      width: 90%;
+    }
+  
+    .values-column {
+      width: 100%;
+    }
+  
+    .label-item, .data-item {
+      padding: 10px;
+      font-size: 0.85rem;
+    }
+  
+    .perfil-container h2 {
+      font-size: 1.5rem;
+    }
+  
+    .perfil-container h3 {
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .perfil-container {
+      width: 100%;
+      padding: 15px;
+      margin-top: 3em;
+    }
+  
+    .info-section {
+      padding: 15px;
+    }
+  
+    .label-item, .data-item {
+      padding: 8px;
+      font-size: 0.8rem;
+    }
+  
+    .perfil-container h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+  
+    .perfil-container h3 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+  }
+  
+  /* Hover effects */
+  .data-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .label-item:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: background-color 0.3s ease;
+  }

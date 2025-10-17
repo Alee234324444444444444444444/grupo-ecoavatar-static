@@ -1,0 +1,119 @@
+/* CONTENEDOR PRINCIPAL */
+.context-page {
+ 
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1700px;
+  height: 680px;
+  margin: 50px auto;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 5em;
+}
+
+.context-page .h3{
+  color: black;
+}
+/* FILAS */
+.row {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Primera fila: 3 columnas */
+.first-row {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Segunda fila: 2 columnas */
+.second-row {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* COLUMNAS */
+.column {
+  backdrop-filter: blur(30px);
+  padding: 1.5rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px rgba(241, 0, 0, 0.1);
+}
+
+/* GIF en la primera columna */
+.intro .gif {
+  width: 100%; 
+  max-height: 200px; 
+  object-fit: cover; 
+  border-radius: 10px; 
+  margin-bottom: 15px; 
+}
+
+/* TÍTULOS */
+.context-page h3 {
+  font-family: 'Georgia', serif;
+  color: #bdd3ce;
+  text-transform: uppercase;
+}
+
+
+/* LISTAS */
+.context-page ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+  font-size: 1.1rem;
+}
+
+/* BOTÓN DE LLAMADA A LA ACCIÓN */
+.cta-container {
+  text-align: center;
+}
+
+.cta-button {
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin-top: 20px;
+  border: 1px solid white;
+}
+
+.cta-button:hover {
+  background-color: white;
+  color: #162114;
+}
+
+/* RESPONSIVE: Ajuste a una sola columna en pantallas pequeñas */
+@media (max-width: 900px) {
+  .first-row, .second-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .context-page {
+    margin-bottom: 40em;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 750px) {
+  .context-page {
+    margin-bottom: 50em;
+  }
+}
+
+@media (max-width: 400px) {
+  .context-page {
+    margin-bottom: 65em;
+  }
+}

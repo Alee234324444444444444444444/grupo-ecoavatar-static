@@ -1,0 +1,196 @@
+/* Navbar base styles */
+.navbar {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  width: 25px;
+  height: 25px;
+  border-radius: 15px;
+  object-fit: fill;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation links */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.navbar-links a:hover {
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+/* Actions section */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.login-btn {
+  background-color: #151d26;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: 1px solid white;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background-color: white;
+  color: #162114;
+  border: 1px solid #162114;
+}
+
+.welcome-message {
+  color: whitesmoke;
+  font-weight: 500;
+}
+
+/* Hamburger menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburger-line {
+  width: 30px;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-container {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 1rem;
+  }
+
+  .navbar-container.open {
+    display: flex;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-links li {
+    width: 100%;
+  }
+
+  .navbar-links a {
+    display: block;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .welcome-message {
+    text-align: center;
+  }
+
+  .login-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hamburger-line.open:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  .hamburger-line.open:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-line.open:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .logo img {
+    width: 50px;
+    height: 50px;
+  }
+}

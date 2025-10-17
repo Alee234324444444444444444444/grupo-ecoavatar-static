@@ -1,0 +1,27 @@
+/* Encabezado */
+.header-content {
+  color: #000000;
+  height: 250px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  /* background-image: url('../images/f3.jpg'); */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-content h2 {
+  color: white;
+  margin-top: 20px;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+
+@media (max-width: 768px) {
+  .header-content{
+    margin-top: 2em;
+  }
+}
