@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import api from '../config/firebase';          // ← instancia con baseURL desde REACT_APP_API_BASE_URL
+import api from '../config/api';          // ← instancia con baseURL desde REACT_APP_API_BASE_URL
 import '../styles/Register.css';
 
 function Register() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-//import api from '@/config/api';        // 👈 usa la instancia centralizada
+import api from '@/config/api';        // 👈 usa la instancia centralizada
 import { useAuth } from '../context/AuthContext';
 import '../styles/Posts.css';
 

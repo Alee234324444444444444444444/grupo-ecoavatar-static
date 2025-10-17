@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../config/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import api from '../config/firebase';              // 👈 instancia central de Axios
+import api from '../config/api';              // 👈 instancia central de Axios
 import '../styles/Login.css';
 import Swal from 'sweetalert2';
 import icon from '../assets/google-icon.png';
