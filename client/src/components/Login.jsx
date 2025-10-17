@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../config/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import api from '../config/api';              // 👈 instancia central de Axios
+import axios from 'axios';
 import '../styles/Login.css';
 import Swal from 'sweetalert2';
 import icon from '../assets/google-icon.png';
@@ -11,79 +11,68 @@ import icon from '../assets/google-icon.png';
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [formData, setFormData] = useState({ username: '', password: '' });
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  });
 
   const handleGoogleSignIn = async () => {
     try {
-      setLoading(true);
-
-      // 1) Sign-in en Firebase
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const idToken = await result.user.getIdToken();
-
-      // 2) Intercambio con tu backend -> devuelve tu JWT + user
-      //    Enviamos idToken y, opcionalmente, un perfil mínimo
-      const payload = {
-        idToken,
-        profile: {
-          email: result.user.email,
-          name: result.user.displayName,
-          username: result.user.email?.split('@')[0],
-          googleId: result.user.uid,
-        },
+      
+      const userData = {
+        email: result.user.email,
+        name: result.user.displayName,
+        username: result.user.email.split('@')[0],
+        googleId: result.user.uid
       };
 
-      const { data } = await api.post('/api/auth/google', payload);
+      console.log('Datos a enviar al servidor:', userData); // Para debug
 
-      // 3) Guardar sesión local
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      login(data.user);
+      const response = await axios.post('/api/auth/google', userData);
 
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      login(response.data.user);
+      
       navigate('/');
     } catch (error) {
-      console.error('Error detallado Google:', error?.response?.data || error);
+      console.error('Error detallado:', error.response?.data || error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text:
-          error?.response?.data?.message ||
-          'No se pudo iniciar sesión con Google',
+        text: error.response?.data?.message || 'Error al iniciar sesión con Google'
       });
-    } finally {
-      setLoading(false);
     }
   };
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación simple del username (sin puntos)
+    // Validar el username (no puede contener puntos)
     const usernameRegex = /^[a-zA-Z0-9_]+$/;
     if (!usernameRegex.test(formData.username)) {
       Swal.fire({
         icon: 'error',
         title: 'Error en el nombre de usuario',
-        text:
-          'El nombre de usuario solo puede contener letras, números y guiones bajos (sin puntos).',
+        text: 'El nombre de usuario solo puede contener letras, números y guiones bajos, no puntos.'
       });
-      return;
+      return; // Detener la ejecución si el username es inválido
     }
 
     try {
-      setLoading(true);
-
-      // 👉 En producción va contra tu App Service (baseURL viene del env)
-      const { data } = await api.post('/api/auth/login', formData);
-
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      login(data.user);
+      const response = await axios.post('/api/auth/login', formData);
+      localStorage.setItem('token', response.data.token); //soy bobo me olvide de ls api del front, esta en local
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      login(response.data.user);
 
       navigate('/');
     } catch (error) {
@@ -91,12 +80,8 @@ function Login() {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text:
-          error?.response?.data?.message ||
-          'Usuario o contraseña incorrectos',
+        text: error.response?.data?.message || 'Usuario o contraseña incorrectos',
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -104,12 +89,9 @@ function Login() {
     <div className="login-container">
       <div className="login-box">
         <h2>Iniciar Sesión</h2>
-
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="username">
-              <big>USUARIO:</big>
-            </label>
+            <label htmlFor="username"><big>USUARIO:</big></label>
             <input
               type="text"
               name="username"
@@ -118,14 +100,10 @@ function Login() {
               value={formData.username}
               onChange={handleChange}
               placeholder="Ingresa tu usuario"
-              autoComplete="username"
             />
           </div>
-
           <div className="input-group">
-            <label htmlFor="password">
-              <big>CONTRASEÑA:</big>
-            </label>
+            <label htmlFor="password"><big>CONTRASEÑA:</big></label>
             <input
               type="password"
               name="password"
@@ -134,19 +112,16 @@ function Login() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Ingresa tu contraseña"
-              autoComplete="current-password"
             />
           </div>
-
           <div className="form-footer">
-            <button type="submit" className="submit-btn" disabled={loading}>
-              <strong>{loading ? 'Ingresando…' : 'Ingresar'}</strong>
+            <button type="submit" className="submit-btn">
+              <strong>Ingresar</strong>
             </button>
-            <button
-              type="button"
+            <button 
+              type="button" 
               className="cancel-btn"
               onClick={() => navigate('/')}
-              disabled={loading}
             >
               <strong>Cancelar</strong>
             </button>
@@ -154,11 +129,10 @@ function Login() {
         </form>
 
         <div className="social-login">
-          <button
-            type="button"
+          <button 
+            type="button" 
             className="google-btn"
             onClick={handleGoogleSignIn}
-            disabled={loading}
           >
             <img src={icon} alt="Google" />
             Iniciar sesión con Google
@@ -166,9 +140,7 @@ function Login() {
         </div>
 
         <div className="register-link">
-          <p>
-            ¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link>
-          </p>
+          <p>¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link></p>
         </div>
       </div>
     </div>
