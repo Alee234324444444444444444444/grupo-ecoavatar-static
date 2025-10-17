@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import api from '../config/firebase';          // ← instancia con baseURL desde REACT_APP_API_BASE_URL
 import '../styles/Register.css';
 
 function Register() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -15,95 +16,88 @@ function Register() {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+
+    // Normalizaciones útiles
+    if (name === 'email') {
+      setFormData((s) => ({ ...s, [name]: value.trim().toLowerCase() }));
+    } else if (name === 'username') {
+      // Solo letras/números/guion_bajo; sin espacios
+      const clean = value.replace(/[^\w]/g, '');
+      setFormData((s) => ({ ...s, [name]: clean }));
+    } else {
+      setFormData((s) => ({ ...s, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación de nombre de usuario (una mayúscula, las demás minúsculas y un número al final)
+    // Validación username (letras, números, _ )
     const usernameRegex = /^[a-zA-Z0-9_]+$/;
-
     if (!usernameRegex.test(formData.username)) {
       Swal.fire({
         icon: 'error',
         title: 'Error en el nombre de usuario',
         text: 'El nombre de usuario solo puede contener letras, números y guiones bajos.'
       });
-      return; // Detener la ejecución si la validación falla
-    }
-    
-
-    // Validación del correo electrónico
-    const email = formData.email;
-    if (!email.includes('@')) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error en el correo electrónico',
-        text: 'El correo electrónico debe contener el símbolo "@" y un dominio válido.'
-      });
       return;
     }
 
-    const emailRegex = /^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,6}$/; // Correo con dominio simple
+    // Validación email simple (en minúsculas)
+    const email = formData.email;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     if (!emailRegex.test(email)) {
       Swal.fire({
         icon: 'error',
         title: 'Correo electrónico inválido',
-        text: 'El correo electrónico no tiene un formato válido. Asegúrate de que esté en minúsculas y tenga un dominio adecuado, como "ejemplo@dominio.com".'
+        text: 'Verifica el formato del correo. Ej: usuario@dominio.com'
       });
       return;
     }
 
-    // Validación de contraseñas coincidentes
+    // Validación contraseñas coinciden
     if (formData.password !== formData.confirmPassword) {
       Swal.fire({
         icon: 'error',
         title: 'Las contraseñas no coinciden',
-        text: 'Las contraseñas que ingresaste no coinciden. Por favor, vuelve a escribirlas.'
+        text: 'Vuelve a escribir la contraseña.'
       });
       return;
     }
 
     try {
-      // Solo enviamos los campos que coinciden con el modelo
-      const userData = {
-        name: formData.name,
+      setLoading(true);
+
+      // Solo lo que espera tu backend
+      const payload = {
+        name: formData.name.trim(),
         username: formData.username,
-        email: formData.email,
+        email: email,
         password: formData.password
       };
 
-      const response = await axios.post('http://localhost:3000/api/auth/register', userData);
+      const { data } = await api.post('/api/auth/register', payload);
 
-      if (response.data) {
-        Swal.fire({
+      if (data) {
+        await Swal.fire({
           icon: 'success',
           title: '¡Registro exitoso!',
           text: 'Ya puedes iniciar sesión'
-        }).then(() => {
-          navigate('/login');
         });
+        navigate('/login');
       }
     } catch (error) {
       console.error('Error en registro:', error);
-      // Mensaje detallado si la respuesta del servidor es un error
-      if (error.response) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error en el registro',
-          text: error.response.data?.message || 'Hubo un problema al registrar el usuario. Esto podría deberse a problemas con el servidor o datos incorrectos enviados. Por favor, inténtalo de nuevo.'
-        });
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error en el registro',
-          text: 'Hubo un problema al intentar conectar con el servidor. Esto podría ser debido a problemas de red o a un servicio caído. Verifica tu conexión a internet y vuelve a intentarlo.'
-        });
-      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text:
+          error?.response?.data?.message ||
+          'Hubo un problema al registrar el usuario. Inténtalo nuevamente.'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,6 +116,7 @@ function Register() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Ingresa tu nombre completo"
+              autoComplete="name"
             />
           </div>
 
@@ -135,6 +130,7 @@ function Register() {
               value={formData.username}
               onChange={handleChange}
               placeholder="Elige un nombre de usuario"
+              autoComplete="username"
             />
           </div>
 
@@ -148,6 +144,7 @@ function Register() {
               value={formData.email}
               onChange={handleChange}
               placeholder="correo@ejemplo.com"
+              autoComplete="email"
             />
           </div>
 
@@ -161,6 +158,7 @@ function Register() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Ingresa tu contraseña"
+              autoComplete="new-password"
             />
           </div>
 
@@ -174,17 +172,19 @@ function Register() {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="Confirma tu contraseña"
+              autoComplete="new-password"
             />
           </div>
 
           <div className="form-footer">
-            <button type="submit" className="submit-btn">
-              <strong>Registrarse</strong>
+            <button type="submit" className="submit-btn" disabled={loading}>
+              <strong>{loading ? 'Registrando…' : 'Registrarse'}</strong>
             </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="cancel-btn"
               onClick={() => navigate('/login')}
+              disabled={loading}
             >
               <strong>Cancelar</strong>
             </button>
