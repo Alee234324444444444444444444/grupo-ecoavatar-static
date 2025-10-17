@@ -1,46 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from 'react';
+import api from '@/config/api';        // 👈 usa la instancia centralizada
 import { useAuth } from '../context/AuthContext';
 import '../styles/Posts.css';
 
-function Posts() {
+const API_BASE = process.env.REACT_APP_API_BASE_URL; // para imágenes
+
+export default function Posts() {
   const [userPosts, setUserPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    fetchPosts();
-  }, [user]);
+  // Construye URL absoluta para fotos que vienen como "/uploads/..."
+  const imgUrl = (path) =>
+    path?.startsWith('http') ? path : `${API_BASE}${path || ''}`;
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/posts', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const { data } = await api.get('/api/posts');
 
       if (isAuthenticated && user) {
-        const userPosts = response.data.filter(post => post.user_id === user.id);
-        setUserPosts(userPosts);
+        setUserPosts(data.filter((p) => p.user_id === user.id));
       }
-      setAllPosts(response.data);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
+      setAllPosts(data);
+    } catch (err) {
+      console.error('Error fetching posts:', err);
     }
-  };
+  }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const handleStatusChange = async (postId, newStatus) => {
     if (!user?.isSuperuser) return;
-    
     try {
-      const token = localStorage.getItem('token');
-      await axios.patch(`http://localhost:3000/api/posts/${postId}/status`, 
-        { status: newStatus },
-        { headers: { Authorization: `Bearer ${token}` }}
-      );
+      await api.patch(`/api/posts/${postId}/status`, { status: newStatus });
       fetchPosts();
-    } catch (error) {
-      console.error('Error updating post status:', error);
+    } catch (err) {
+      console.error('Error updating post status:', err);
     }
   };
 
@@ -50,20 +47,23 @@ function Posts() {
         <section className="user-posts-section">
           <h2>Tus Publicaciones</h2>
           <div className="user-posts">
-            {userPosts.map(post => (
+            {userPosts.map((post) => (
               <div key={post.id} className="user-post-card">
                 <div className="post-image">
-                  <img src={`http://localhost:3000${post.photo}`} alt="Post" />
+                  <img src={imgUrl(post.photo)} alt="Post" />
                 </div>
                 <div className="post-content">
                   <h3>{post.Challenge?.title || 'Desafío'}</h3>
                   <p>{post.description}</p>
-                  <button 
+                  <button
                     className={`status-button ${post.status}`}
                     onClick={() => handleStatusChange(post.id, 'approved')}
                   >
-                    {post.status === 'pending' ? 'En Revisión' : 
-                     post.status === 'approved' ? 'Aprobado' : 'Rechazado'}
+                    {post.status === 'pending'
+                      ? 'En Revisión'
+                      : post.status === 'approved'
+                      ? 'Aprobado'
+                      : 'Rechazado'}
                   </button>
                 </div>
               </div>
@@ -76,27 +76,26 @@ function Posts() {
         <h2>TODAS LAS PUBLICACIONES</h2>
         <div className="posts-grid">
           {allPosts
-            .filter(post => post.status === 'approved')
-            .map(post => (
-            <div key={post.id} className="post-grid-card">
-              <div className="post-grid-title">
-                <h3>{post.Challenge?.title || 'Desafío'}</h3>
-              </div>
-              <div className="post-grid-image">
-                <img src={`http://localhost:3000${post.photo}`} alt="Post" />
-              </div>
-              <div className="post-grid-description">
-                <p>{post.description}</p>
-                <span className="post-author">OP: {post.User?.username}
+            .filter((post) => post.status === 'approved')
+            .map((post) => (
+              <div key={post.id} className="post-grid-card">
+                <div className="post-grid-title">
+                  <h3>{post.Challenge?.title || 'Desafío'}</h3>
+                </div>
+                <div className="post-grid-image">
+                  <img src={imgUrl(post.photo)} alt="Post" />
+                </div>
+                <div className="post-grid-description">
+                  <p>{post.description}</p>
+                  <span className="post-author">
+                    OP: {post.User?.username}
                     <p>{new Date(post.created_at).toLocaleString()}</p>
-                </span>
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </section>
     </div>
   );
 }
-
-export default Posts;
